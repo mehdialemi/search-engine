@@ -5,5 +5,3 @@
 - Indexer
 - Searcher
 - Document
-
-`This repo is not completed yet. Wait For It`
