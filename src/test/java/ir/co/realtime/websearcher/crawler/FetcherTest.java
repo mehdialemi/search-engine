@@ -1,32 +1,44 @@
 package ir.co.realtime.websearcher.crawler;
 
-import ir.co.realtime.websearcher.crawler.fetcher.FetcherService;
+import com.google.protobuf.InvalidProtocolBufferException;
+import ir.co.realtime.websearcher.common.LocalKafka;
 import ir.co.realtime.websearcher.document.Document;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(value = "classpath:test.properties")
-@EnableAutoConfiguration
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class FetcherTest {
+@SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 
-    @Autowired
-    private FetcherService fetcherService;
+public class FetcherTest extends LocalKafka {
+
+    @Value("${crawler.fetch.download-topic}")
+    private String downloadTopic;
+
+    @Value("${crawler.fetch.update-topic}")
+    private String updateTopic;
+
+    @Before
+    public void setup() {
+        init(updateTopic, downloadTopic);
+    }
 
     @Test
-    public void simpleDownloadTest() throws IOException {
-        Document.Web webDocument = fetcherService.download("https://www.google.com/");
-        assertNotNull(webDocument.getContent());
-        assertFalse(webDocument.getContent().isEmpty());
+    public void simpleDownloadTest() throws InvalidProtocolBufferException {
+        String url = "https://www.google.com";
+        send(url, url.getBytes());
+
+        Document.Page update = Document.Page.parseFrom(getPublishedValue());
+
+        assertEquals(url, update.getUrl());
+        assertTrue(update.getFetchTime() > 0);
+        assertFalse(update.getBytes().isEmpty());
     }
 }

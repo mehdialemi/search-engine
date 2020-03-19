@@ -2,8 +2,38 @@ syntax = "proto3";
 
 option java_package = "ir.co.realtime.websearcher.document";
 
-message Web {
+message Page {
+    int32 id = 1;
+    string url = 2;
+    bytes bytes = 3;
+    Content_Type content_type = 4;
+    uint64 fetch_time = 5;
+    FetchStatus fetch_status = 6;
+
+    enum FetchStatus {
+        FETCHED = 0; // url is fetched recently
+        FETCHING = 1; // url is fetching and its process has not been completed
+        MUST_FETCH = 2; // url must be fetched as soon as possible (first priority)
+        CAN_FETCH = 3; // url can be fetched
+        REMOVED = 4; // url is removed at not valid anymore
+        BLOCKED = 5; // url is forbidden to be fetched such as filtered web pages
+    }
+
+    enum Content_Type {
+        TEXT = 0;
+        IMAGE = 1;
+        VIDEO = 2;
+        SOUND = 3;
+    }
+}
+
+message WebArchive {
     string url = 1;
-    bytes content = 2;
-    uint64 fetch_time = 3;
+    repeated Page versions = 2;
+}
+
+message Domain {
+    string domain = 1;
+    repeated Page urls = 2;
+    Domain sub_domains = 3;
 }

@@ -14,56 +14,86 @@ public final class Document {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface WebOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:Web)
+  public interface PageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Page)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>string url = 1;</code>
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    int getId();
+
+    /**
+     * <code>string url = 2;</code>
      * @return The url.
      */
     java.lang.String getUrl();
     /**
-     * <code>string url = 1;</code>
+     * <code>string url = 2;</code>
      * @return The bytes for url.
      */
     com.google.protobuf.ByteString
         getUrlBytes();
 
     /**
-     * <code>bytes content = 2;</code>
-     * @return The content.
+     * <code>bytes bytes = 3;</code>
+     * @return The bytes.
      */
-    com.google.protobuf.ByteString getContent();
+    com.google.protobuf.ByteString getBytes();
 
     /**
-     * <code>uint64 fetch_time = 3;</code>
+     * <code>.Page.Content_Type content_type = 4;</code>
+     * @return The enum numeric value on the wire for contentType.
+     */
+    int getContentTypeValue();
+    /**
+     * <code>.Page.Content_Type content_type = 4;</code>
+     * @return The contentType.
+     */
+    ir.co.realtime.websearcher.document.Document.Page.Content_Type getContentType();
+
+    /**
+     * <code>uint64 fetch_time = 5;</code>
      * @return The fetchTime.
      */
     long getFetchTime();
+
+    /**
+     * <code>.Page.FetchStatus fetch_status = 6;</code>
+     * @return The enum numeric value on the wire for fetchStatus.
+     */
+    int getFetchStatusValue();
+    /**
+     * <code>.Page.FetchStatus fetch_status = 6;</code>
+     * @return The fetchStatus.
+     */
+    ir.co.realtime.websearcher.document.Document.Page.FetchStatus getFetchStatus();
   }
   /**
-   * Protobuf type {@code Web}
+   * Protobuf type {@code Page}
    */
-  public  static final class Web extends
+  public  static final class Page extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:Web)
-      WebOrBuilder {
+      // @@protoc_insertion_point(message_implements:Page)
+      PageOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use Web.newBuilder() to construct.
-    private Web(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use Page.newBuilder() to construct.
+    private Page(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Web() {
+    private Page() {
       url_ = "";
-      content_ = com.google.protobuf.ByteString.EMPTY;
+      bytes_ = com.google.protobuf.ByteString.EMPTY;
+      contentType_ = 0;
+      fetchStatus_ = 0;
     }
 
     @java.lang.Override
     @SuppressWarnings({"unused"})
     protected java.lang.Object newInstance(
         UnusedPrivateParameter unused) {
-      return new Web();
+      return new Page();
     }
 
     @java.lang.Override
@@ -71,7 +101,7 @@ public final class Document {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Web(
+    private Page(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -89,20 +119,37 @@ public final class Document {
             case 0:
               done = true;
               break;
-            case 10: {
+            case 8: {
+
+              id_ = input.readInt32();
+              break;
+            }
+            case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
               url_ = s;
               break;
             }
-            case 18: {
+            case 26: {
 
-              content_ = input.readBytes();
+              bytes_ = input.readBytes();
               break;
             }
-            case 24: {
+            case 32: {
+              int rawValue = input.readEnum();
+
+              contentType_ = rawValue;
+              break;
+            }
+            case 40: {
 
               fetchTime_ = input.readUInt64();
+              break;
+            }
+            case 48: {
+              int rawValue = input.readEnum();
+
+              fetchStatus_ = rawValue;
               break;
             }
             default: {
@@ -126,21 +173,341 @@ public final class Document {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return ir.co.realtime.websearcher.document.Document.internal_static_Web_descriptor;
+      return ir.co.realtime.websearcher.document.Document.internal_static_Page_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return ir.co.realtime.websearcher.document.Document.internal_static_Web_fieldAccessorTable
+      return ir.co.realtime.websearcher.document.Document.internal_static_Page_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              ir.co.realtime.websearcher.document.Document.Web.class, ir.co.realtime.websearcher.document.Document.Web.Builder.class);
+              ir.co.realtime.websearcher.document.Document.Page.class, ir.co.realtime.websearcher.document.Document.Page.Builder.class);
     }
 
-    public static final int URL_FIELD_NUMBER = 1;
+    /**
+     * Protobuf enum {@code Page.FetchStatus}
+     */
+    public enum FetchStatus
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <pre>
+       * url is fetched recently
+       * </pre>
+       *
+       * <code>FETCHED = 0;</code>
+       */
+      FETCHED(0),
+      /**
+       * <pre>
+       * url is fetching and its process has not been completed
+       * </pre>
+       *
+       * <code>FETCHING = 1;</code>
+       */
+      FETCHING(1),
+      /**
+       * <pre>
+       * url must be fetched as soon as possible (first priority)
+       * </pre>
+       *
+       * <code>MUST_FETCH = 2;</code>
+       */
+      MUST_FETCH(2),
+      /**
+       * <pre>
+       * url can be fetched
+       * </pre>
+       *
+       * <code>CAN_FETCH = 3;</code>
+       */
+      CAN_FETCH(3),
+      /**
+       * <pre>
+       * url is removed at not valid anymore
+       * </pre>
+       *
+       * <code>REMOVED = 4;</code>
+       */
+      REMOVED(4),
+      /**
+       * <pre>
+       * url is forbidden to be fetched such as filtered web pages
+       * </pre>
+       *
+       * <code>BLOCKED = 5;</code>
+       */
+      BLOCKED(5),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <pre>
+       * url is fetched recently
+       * </pre>
+       *
+       * <code>FETCHED = 0;</code>
+       */
+      public static final int FETCHED_VALUE = 0;
+      /**
+       * <pre>
+       * url is fetching and its process has not been completed
+       * </pre>
+       *
+       * <code>FETCHING = 1;</code>
+       */
+      public static final int FETCHING_VALUE = 1;
+      /**
+       * <pre>
+       * url must be fetched as soon as possible (first priority)
+       * </pre>
+       *
+       * <code>MUST_FETCH = 2;</code>
+       */
+      public static final int MUST_FETCH_VALUE = 2;
+      /**
+       * <pre>
+       * url can be fetched
+       * </pre>
+       *
+       * <code>CAN_FETCH = 3;</code>
+       */
+      public static final int CAN_FETCH_VALUE = 3;
+      /**
+       * <pre>
+       * url is removed at not valid anymore
+       * </pre>
+       *
+       * <code>REMOVED = 4;</code>
+       */
+      public static final int REMOVED_VALUE = 4;
+      /**
+       * <pre>
+       * url is forbidden to be fetched such as filtered web pages
+       * </pre>
+       *
+       * <code>BLOCKED = 5;</code>
+       */
+      public static final int BLOCKED_VALUE = 5;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static FetchStatus valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static FetchStatus forNumber(int value) {
+        switch (value) {
+          case 0: return FETCHED;
+          case 1: return FETCHING;
+          case 2: return MUST_FETCH;
+          case 3: return CAN_FETCH;
+          case 4: return REMOVED;
+          case 5: return BLOCKED;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<FetchStatus>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          FetchStatus> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<FetchStatus>() {
+              public FetchStatus findValueByNumber(int number) {
+                return FetchStatus.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ir.co.realtime.websearcher.document.Document.Page.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final FetchStatus[] VALUES = values();
+
+      public static FetchStatus valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private FetchStatus(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Page.FetchStatus)
+    }
+
+    /**
+     * Protobuf enum {@code Page.Content_Type}
+     */
+    public enum Content_Type
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>TEXT = 0;</code>
+       */
+      TEXT(0),
+      /**
+       * <code>IMAGE = 1;</code>
+       */
+      IMAGE(1),
+      /**
+       * <code>VIDEO = 2;</code>
+       */
+      VIDEO(2),
+      /**
+       * <code>SOUND = 3;</code>
+       */
+      SOUND(3),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>TEXT = 0;</code>
+       */
+      public static final int TEXT_VALUE = 0;
+      /**
+       * <code>IMAGE = 1;</code>
+       */
+      public static final int IMAGE_VALUE = 1;
+      /**
+       * <code>VIDEO = 2;</code>
+       */
+      public static final int VIDEO_VALUE = 2;
+      /**
+       * <code>SOUND = 3;</code>
+       */
+      public static final int SOUND_VALUE = 3;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static Content_Type valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static Content_Type forNumber(int value) {
+        switch (value) {
+          case 0: return TEXT;
+          case 1: return IMAGE;
+          case 2: return VIDEO;
+          case 3: return SOUND;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<Content_Type>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          Content_Type> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<Content_Type>() {
+              public Content_Type findValueByNumber(int number) {
+                return Content_Type.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return ir.co.realtime.websearcher.document.Document.Page.getDescriptor().getEnumTypes().get(1);
+      }
+
+      private static final Content_Type[] VALUES = values();
+
+      public static Content_Type valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private Content_Type(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:Page.Content_Type)
+    }
+
+    public static final int ID_FIELD_NUMBER = 1;
+    private int id_;
+    /**
+     * <code>int32 id = 1;</code>
+     * @return The id.
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int URL_FIELD_NUMBER = 2;
     private volatile java.lang.Object url_;
     /**
-     * <code>string url = 1;</code>
+     * <code>string url = 2;</code>
      * @return The url.
      */
     public java.lang.String getUrl() {
@@ -156,7 +523,7 @@ public final class Document {
       }
     }
     /**
-     * <code>string url = 1;</code>
+     * <code>string url = 2;</code>
      * @return The bytes for url.
      */
     public com.google.protobuf.ByteString
@@ -173,24 +540,62 @@ public final class Document {
       }
     }
 
-    public static final int CONTENT_FIELD_NUMBER = 2;
-    private com.google.protobuf.ByteString content_;
+    public static final int BYTES_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString bytes_;
     /**
-     * <code>bytes content = 2;</code>
-     * @return The content.
+     * <code>bytes bytes = 3;</code>
+     * @return The bytes.
      */
-    public com.google.protobuf.ByteString getContent() {
-      return content_;
+    public com.google.protobuf.ByteString getBytes() {
+      return bytes_;
     }
 
-    public static final int FETCH_TIME_FIELD_NUMBER = 3;
+    public static final int CONTENT_TYPE_FIELD_NUMBER = 4;
+    private int contentType_;
+    /**
+     * <code>.Page.Content_Type content_type = 4;</code>
+     * @return The enum numeric value on the wire for contentType.
+     */
+    public int getContentTypeValue() {
+      return contentType_;
+    }
+    /**
+     * <code>.Page.Content_Type content_type = 4;</code>
+     * @return The contentType.
+     */
+    public ir.co.realtime.websearcher.document.Document.Page.Content_Type getContentType() {
+      @SuppressWarnings("deprecation")
+      ir.co.realtime.websearcher.document.Document.Page.Content_Type result = ir.co.realtime.websearcher.document.Document.Page.Content_Type.valueOf(contentType_);
+      return result == null ? ir.co.realtime.websearcher.document.Document.Page.Content_Type.UNRECOGNIZED : result;
+    }
+
+    public static final int FETCH_TIME_FIELD_NUMBER = 5;
     private long fetchTime_;
     /**
-     * <code>uint64 fetch_time = 3;</code>
+     * <code>uint64 fetch_time = 5;</code>
      * @return The fetchTime.
      */
     public long getFetchTime() {
       return fetchTime_;
+    }
+
+    public static final int FETCH_STATUS_FIELD_NUMBER = 6;
+    private int fetchStatus_;
+    /**
+     * <code>.Page.FetchStatus fetch_status = 6;</code>
+     * @return The enum numeric value on the wire for fetchStatus.
+     */
+    public int getFetchStatusValue() {
+      return fetchStatus_;
+    }
+    /**
+     * <code>.Page.FetchStatus fetch_status = 6;</code>
+     * @return The fetchStatus.
+     */
+    public ir.co.realtime.websearcher.document.Document.Page.FetchStatus getFetchStatus() {
+      @SuppressWarnings("deprecation")
+      ir.co.realtime.websearcher.document.Document.Page.FetchStatus result = ir.co.realtime.websearcher.document.Document.Page.FetchStatus.valueOf(fetchStatus_);
+      return result == null ? ir.co.realtime.websearcher.document.Document.Page.FetchStatus.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -207,14 +612,23 @@ public final class Document {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getUrlBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, url_);
+      if (id_ != 0) {
+        output.writeInt32(1, id_);
       }
-      if (!content_.isEmpty()) {
-        output.writeBytes(2, content_);
+      if (!getUrlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, url_);
+      }
+      if (!bytes_.isEmpty()) {
+        output.writeBytes(3, bytes_);
+      }
+      if (contentType_ != ir.co.realtime.websearcher.document.Document.Page.Content_Type.TEXT.getNumber()) {
+        output.writeEnum(4, contentType_);
       }
       if (fetchTime_ != 0L) {
-        output.writeUInt64(3, fetchTime_);
+        output.writeUInt64(5, fetchTime_);
+      }
+      if (fetchStatus_ != ir.co.realtime.websearcher.document.Document.Page.FetchStatus.FETCHED.getNumber()) {
+        output.writeEnum(6, fetchStatus_);
       }
       unknownFields.writeTo(output);
     }
@@ -225,16 +639,28 @@ public final class Document {
       if (size != -1) return size;
 
       size = 0;
-      if (!getUrlBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, url_);
-      }
-      if (!content_.isEmpty()) {
+      if (id_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, content_);
+          .computeInt32Size(1, id_);
+      }
+      if (!getUrlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, url_);
+      }
+      if (!bytes_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, bytes_);
+      }
+      if (contentType_ != ir.co.realtime.websearcher.document.Document.Page.Content_Type.TEXT.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(4, contentType_);
       }
       if (fetchTime_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(3, fetchTime_);
+          .computeUInt64Size(5, fetchTime_);
+      }
+      if (fetchStatus_ != ir.co.realtime.websearcher.document.Document.Page.FetchStatus.FETCHED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, fetchStatus_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -246,17 +672,21 @@ public final class Document {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof ir.co.realtime.websearcher.document.Document.Web)) {
+      if (!(obj instanceof ir.co.realtime.websearcher.document.Document.Page)) {
         return super.equals(obj);
       }
-      ir.co.realtime.websearcher.document.Document.Web other = (ir.co.realtime.websearcher.document.Document.Web) obj;
+      ir.co.realtime.websearcher.document.Document.Page other = (ir.co.realtime.websearcher.document.Document.Page) obj;
 
+      if (getId()
+          != other.getId()) return false;
       if (!getUrl()
           .equals(other.getUrl())) return false;
-      if (!getContent()
-          .equals(other.getContent())) return false;
+      if (!getBytes()
+          .equals(other.getBytes())) return false;
+      if (contentType_ != other.contentType_) return false;
       if (getFetchTime()
           != other.getFetchTime()) return false;
+      if (fetchStatus_ != other.fetchStatus_) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -268,81 +698,87 @@ public final class Document {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
       hash = (37 * hash) + URL_FIELD_NUMBER;
       hash = (53 * hash) + getUrl().hashCode();
-      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
-      hash = (53 * hash) + getContent().hashCode();
+      hash = (37 * hash) + BYTES_FIELD_NUMBER;
+      hash = (53 * hash) + getBytes().hashCode();
+      hash = (37 * hash) + CONTENT_TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + contentType_;
       hash = (37 * hash) + FETCH_TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getFetchTime());
+      hash = (37 * hash) + FETCH_STATUS_FIELD_NUMBER;
+      hash = (53 * hash) + fetchStatus_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(byte[] data)
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(java.io.InputStream input)
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseDelimitedFrom(java.io.InputStream input)
+    public static ir.co.realtime.websearcher.document.Document.Page parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseDelimitedFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static ir.co.realtime.websearcher.document.Document.Web parseFrom(
+    public static ir.co.realtime.websearcher.document.Document.Page parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -355,7 +791,7 @@ public final class Document {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(ir.co.realtime.websearcher.document.Document.Web prototype) {
+    public static Builder newBuilder(ir.co.realtime.websearcher.document.Document.Page prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -371,26 +807,26 @@ public final class Document {
       return builder;
     }
     /**
-     * Protobuf type {@code Web}
+     * Protobuf type {@code Page}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:Web)
-        ir.co.realtime.websearcher.document.Document.WebOrBuilder {
+        // @@protoc_insertion_point(builder_implements:Page)
+        ir.co.realtime.websearcher.document.Document.PageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return ir.co.realtime.websearcher.document.Document.internal_static_Web_descriptor;
+        return ir.co.realtime.websearcher.document.Document.internal_static_Page_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return ir.co.realtime.websearcher.document.Document.internal_static_Web_fieldAccessorTable
+        return ir.co.realtime.websearcher.document.Document.internal_static_Page_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                ir.co.realtime.websearcher.document.Document.Web.class, ir.co.realtime.websearcher.document.Document.Web.Builder.class);
+                ir.co.realtime.websearcher.document.Document.Page.class, ir.co.realtime.websearcher.document.Document.Page.Builder.class);
       }
 
-      // Construct using ir.co.realtime.websearcher.document.Document.Web.newBuilder()
+      // Construct using ir.co.realtime.websearcher.document.Document.Page.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -408,11 +844,17 @@ public final class Document {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        id_ = 0;
+
         url_ = "";
 
-        content_ = com.google.protobuf.ByteString.EMPTY;
+        bytes_ = com.google.protobuf.ByteString.EMPTY;
+
+        contentType_ = 0;
 
         fetchTime_ = 0L;
+
+        fetchStatus_ = 0;
 
         return this;
       }
@@ -420,17 +862,17 @@ public final class Document {
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return ir.co.realtime.websearcher.document.Document.internal_static_Web_descriptor;
+        return ir.co.realtime.websearcher.document.Document.internal_static_Page_descriptor;
       }
 
       @java.lang.Override
-      public ir.co.realtime.websearcher.document.Document.Web getDefaultInstanceForType() {
-        return ir.co.realtime.websearcher.document.Document.Web.getDefaultInstance();
+      public ir.co.realtime.websearcher.document.Document.Page getDefaultInstanceForType() {
+        return ir.co.realtime.websearcher.document.Document.Page.getDefaultInstance();
       }
 
       @java.lang.Override
-      public ir.co.realtime.websearcher.document.Document.Web build() {
-        ir.co.realtime.websearcher.document.Document.Web result = buildPartial();
+      public ir.co.realtime.websearcher.document.Document.Page build() {
+        ir.co.realtime.websearcher.document.Document.Page result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -438,11 +880,14 @@ public final class Document {
       }
 
       @java.lang.Override
-      public ir.co.realtime.websearcher.document.Document.Web buildPartial() {
-        ir.co.realtime.websearcher.document.Document.Web result = new ir.co.realtime.websearcher.document.Document.Web(this);
+      public ir.co.realtime.websearcher.document.Document.Page buildPartial() {
+        ir.co.realtime.websearcher.document.Document.Page result = new ir.co.realtime.websearcher.document.Document.Page(this);
+        result.id_ = id_;
         result.url_ = url_;
-        result.content_ = content_;
+        result.bytes_ = bytes_;
+        result.contentType_ = contentType_;
         result.fetchTime_ = fetchTime_;
+        result.fetchStatus_ = fetchStatus_;
         onBuilt();
         return result;
       }
@@ -481,25 +926,34 @@ public final class Document {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof ir.co.realtime.websearcher.document.Document.Web) {
-          return mergeFrom((ir.co.realtime.websearcher.document.Document.Web)other);
+        if (other instanceof ir.co.realtime.websearcher.document.Document.Page) {
+          return mergeFrom((ir.co.realtime.websearcher.document.Document.Page)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(ir.co.realtime.websearcher.document.Document.Web other) {
-        if (other == ir.co.realtime.websearcher.document.Document.Web.getDefaultInstance()) return this;
+      public Builder mergeFrom(ir.co.realtime.websearcher.document.Document.Page other) {
+        if (other == ir.co.realtime.websearcher.document.Document.Page.getDefaultInstance()) return this;
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
         if (!other.getUrl().isEmpty()) {
           url_ = other.url_;
           onChanged();
         }
-        if (other.getContent() != com.google.protobuf.ByteString.EMPTY) {
-          setContent(other.getContent());
+        if (other.getBytes() != com.google.protobuf.ByteString.EMPTY) {
+          setBytes(other.getBytes());
+        }
+        if (other.contentType_ != 0) {
+          setContentTypeValue(other.getContentTypeValue());
         }
         if (other.getFetchTime() != 0L) {
           setFetchTime(other.getFetchTime());
+        }
+        if (other.fetchStatus_ != 0) {
+          setFetchStatusValue(other.getFetchStatusValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -516,11 +970,11 @@ public final class Document {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        ir.co.realtime.websearcher.document.Document.Web parsedMessage = null;
+        ir.co.realtime.websearcher.document.Document.Page parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (ir.co.realtime.websearcher.document.Document.Web) e.getUnfinishedMessage();
+          parsedMessage = (ir.co.realtime.websearcher.document.Document.Page) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -529,6 +983,899 @@ public final class Document {
         }
         return this;
       }
+
+      private int id_ ;
+      /**
+       * <code>int32 id = 1;</code>
+       * @return The id.
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>int32 id = 1;</code>
+       * @param value The id to set.
+       * @return This builder for chaining.
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object url_ = "";
+      /**
+       * <code>string url = 2;</code>
+       * @return The url.
+       */
+      public java.lang.String getUrl() {
+        java.lang.Object ref = url_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          url_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string url = 2;</code>
+       * @return The bytes for url.
+       */
+      public com.google.protobuf.ByteString
+          getUrlBytes() {
+        java.lang.Object ref = url_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          url_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string url = 2;</code>
+       * @param value The url to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUrl(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        url_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string url = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUrl() {
+        
+        url_ = getDefaultInstance().getUrl();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string url = 2;</code>
+       * @param value The bytes for url to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUrlBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        url_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString bytes_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes bytes = 3;</code>
+       * @return The bytes.
+       */
+      public com.google.protobuf.ByteString getBytes() {
+        return bytes_;
+      }
+      /**
+       * <code>bytes bytes = 3;</code>
+       * @param value The bytes to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBytes(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        bytes_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes bytes = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBytes() {
+        
+        bytes_ = getDefaultInstance().getBytes();
+        onChanged();
+        return this;
+      }
+
+      private int contentType_ = 0;
+      /**
+       * <code>.Page.Content_Type content_type = 4;</code>
+       * @return The enum numeric value on the wire for contentType.
+       */
+      public int getContentTypeValue() {
+        return contentType_;
+      }
+      /**
+       * <code>.Page.Content_Type content_type = 4;</code>
+       * @param value The enum numeric value on the wire for contentType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContentTypeValue(int value) {
+        contentType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Page.Content_Type content_type = 4;</code>
+       * @return The contentType.
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Content_Type getContentType() {
+        @SuppressWarnings("deprecation")
+        ir.co.realtime.websearcher.document.Document.Page.Content_Type result = ir.co.realtime.websearcher.document.Document.Page.Content_Type.valueOf(contentType_);
+        return result == null ? ir.co.realtime.websearcher.document.Document.Page.Content_Type.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Page.Content_Type content_type = 4;</code>
+       * @param value The contentType to set.
+       * @return This builder for chaining.
+       */
+      public Builder setContentType(ir.co.realtime.websearcher.document.Document.Page.Content_Type value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        contentType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Page.Content_Type content_type = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearContentType() {
+        
+        contentType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long fetchTime_ ;
+      /**
+       * <code>uint64 fetch_time = 5;</code>
+       * @return The fetchTime.
+       */
+      public long getFetchTime() {
+        return fetchTime_;
+      }
+      /**
+       * <code>uint64 fetch_time = 5;</code>
+       * @param value The fetchTime to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFetchTime(long value) {
+        
+        fetchTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 fetch_time = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFetchTime() {
+        
+        fetchTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int fetchStatus_ = 0;
+      /**
+       * <code>.Page.FetchStatus fetch_status = 6;</code>
+       * @return The enum numeric value on the wire for fetchStatus.
+       */
+      public int getFetchStatusValue() {
+        return fetchStatus_;
+      }
+      /**
+       * <code>.Page.FetchStatus fetch_status = 6;</code>
+       * @param value The enum numeric value on the wire for fetchStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFetchStatusValue(int value) {
+        fetchStatus_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Page.FetchStatus fetch_status = 6;</code>
+       * @return The fetchStatus.
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.FetchStatus getFetchStatus() {
+        @SuppressWarnings("deprecation")
+        ir.co.realtime.websearcher.document.Document.Page.FetchStatus result = ir.co.realtime.websearcher.document.Document.Page.FetchStatus.valueOf(fetchStatus_);
+        return result == null ? ir.co.realtime.websearcher.document.Document.Page.FetchStatus.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.Page.FetchStatus fetch_status = 6;</code>
+       * @param value The fetchStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFetchStatus(ir.co.realtime.websearcher.document.Document.Page.FetchStatus value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        fetchStatus_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.Page.FetchStatus fetch_status = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFetchStatus() {
+        
+        fetchStatus_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Page)
+    }
+
+    // @@protoc_insertion_point(class_scope:Page)
+    private static final ir.co.realtime.websearcher.document.Document.Page DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ir.co.realtime.websearcher.document.Document.Page();
+    }
+
+    public static ir.co.realtime.websearcher.document.Document.Page getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Page>
+        PARSER = new com.google.protobuf.AbstractParser<Page>() {
+      @java.lang.Override
+      public Page parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Page(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Page> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Page> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ir.co.realtime.websearcher.document.Document.Page getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface WebArchiveOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:WebArchive)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string url = 1;</code>
+     * @return The url.
+     */
+    java.lang.String getUrl();
+    /**
+     * <code>string url = 1;</code>
+     * @return The bytes for url.
+     */
+    com.google.protobuf.ByteString
+        getUrlBytes();
+
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    java.util.List<ir.co.realtime.websearcher.document.Document.Page> 
+        getVersionsList();
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    ir.co.realtime.websearcher.document.Document.Page getVersions(int index);
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    int getVersionsCount();
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    java.util.List<? extends ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+        getVersionsOrBuilderList();
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    ir.co.realtime.websearcher.document.Document.PageOrBuilder getVersionsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code WebArchive}
+   */
+  public  static final class WebArchive extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:WebArchive)
+      WebArchiveOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use WebArchive.newBuilder() to construct.
+    private WebArchive(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private WebArchive() {
+      url_ = "";
+      versions_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new WebArchive();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private WebArchive(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              url_ = s;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                versions_ = new java.util.ArrayList<ir.co.realtime.websearcher.document.Document.Page>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              versions_.add(
+                  input.readMessage(ir.co.realtime.websearcher.document.Document.Page.parser(), extensionRegistry));
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          versions_ = java.util.Collections.unmodifiableList(versions_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ir.co.realtime.websearcher.document.Document.internal_static_WebArchive_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ir.co.realtime.websearcher.document.Document.internal_static_WebArchive_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ir.co.realtime.websearcher.document.Document.WebArchive.class, ir.co.realtime.websearcher.document.Document.WebArchive.Builder.class);
+    }
+
+    public static final int URL_FIELD_NUMBER = 1;
+    private volatile java.lang.Object url_;
+    /**
+     * <code>string url = 1;</code>
+     * @return The url.
+     */
+    public java.lang.String getUrl() {
+      java.lang.Object ref = url_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        url_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string url = 1;</code>
+     * @return The bytes for url.
+     */
+    public com.google.protobuf.ByteString
+        getUrlBytes() {
+      java.lang.Object ref = url_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        url_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VERSIONS_FIELD_NUMBER = 2;
+    private java.util.List<ir.co.realtime.websearcher.document.Document.Page> versions_;
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    public java.util.List<ir.co.realtime.websearcher.document.Document.Page> getVersionsList() {
+      return versions_;
+    }
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    public java.util.List<? extends ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+        getVersionsOrBuilderList() {
+      return versions_;
+    }
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    public int getVersionsCount() {
+      return versions_.size();
+    }
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    public ir.co.realtime.websearcher.document.Document.Page getVersions(int index) {
+      return versions_.get(index);
+    }
+    /**
+     * <code>repeated .Page versions = 2;</code>
+     */
+    public ir.co.realtime.websearcher.document.Document.PageOrBuilder getVersionsOrBuilder(
+        int index) {
+      return versions_.get(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getUrlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, url_);
+      }
+      for (int i = 0; i < versions_.size(); i++) {
+        output.writeMessage(2, versions_.get(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getUrlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, url_);
+      }
+      for (int i = 0; i < versions_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, versions_.get(i));
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ir.co.realtime.websearcher.document.Document.WebArchive)) {
+        return super.equals(obj);
+      }
+      ir.co.realtime.websearcher.document.Document.WebArchive other = (ir.co.realtime.websearcher.document.Document.WebArchive) obj;
+
+      if (!getUrl()
+          .equals(other.getUrl())) return false;
+      if (!getVersionsList()
+          .equals(other.getVersionsList())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + URL_FIELD_NUMBER;
+      hash = (53 * hash) + getUrl().hashCode();
+      if (getVersionsCount() > 0) {
+        hash = (37 * hash) + VERSIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getVersionsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ir.co.realtime.websearcher.document.Document.WebArchive parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ir.co.realtime.websearcher.document.Document.WebArchive prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code WebArchive}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:WebArchive)
+        ir.co.realtime.websearcher.document.Document.WebArchiveOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ir.co.realtime.websearcher.document.Document.internal_static_WebArchive_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ir.co.realtime.websearcher.document.Document.internal_static_WebArchive_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ir.co.realtime.websearcher.document.Document.WebArchive.class, ir.co.realtime.websearcher.document.Document.WebArchive.Builder.class);
+      }
+
+      // Construct using ir.co.realtime.websearcher.document.Document.WebArchive.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getVersionsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        url_ = "";
+
+        if (versionsBuilder_ == null) {
+          versions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          versionsBuilder_.clear();
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ir.co.realtime.websearcher.document.Document.internal_static_WebArchive_descriptor;
+      }
+
+      @java.lang.Override
+      public ir.co.realtime.websearcher.document.Document.WebArchive getDefaultInstanceForType() {
+        return ir.co.realtime.websearcher.document.Document.WebArchive.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ir.co.realtime.websearcher.document.Document.WebArchive build() {
+        ir.co.realtime.websearcher.document.Document.WebArchive result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ir.co.realtime.websearcher.document.Document.WebArchive buildPartial() {
+        ir.co.realtime.websearcher.document.Document.WebArchive result = new ir.co.realtime.websearcher.document.Document.WebArchive(this);
+        int from_bitField0_ = bitField0_;
+        result.url_ = url_;
+        if (versionsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            versions_ = java.util.Collections.unmodifiableList(versions_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.versions_ = versions_;
+        } else {
+          result.versions_ = versionsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ir.co.realtime.websearcher.document.Document.WebArchive) {
+          return mergeFrom((ir.co.realtime.websearcher.document.Document.WebArchive)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ir.co.realtime.websearcher.document.Document.WebArchive other) {
+        if (other == ir.co.realtime.websearcher.document.Document.WebArchive.getDefaultInstance()) return this;
+        if (!other.getUrl().isEmpty()) {
+          url_ = other.url_;
+          onChanged();
+        }
+        if (versionsBuilder_ == null) {
+          if (!other.versions_.isEmpty()) {
+            if (versions_.isEmpty()) {
+              versions_ = other.versions_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureVersionsIsMutable();
+              versions_.addAll(other.versions_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.versions_.isEmpty()) {
+            if (versionsBuilder_.isEmpty()) {
+              versionsBuilder_.dispose();
+              versionsBuilder_ = null;
+              versions_ = other.versions_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              versionsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getVersionsFieldBuilder() : null;
+            } else {
+              versionsBuilder_.addAllMessages(other.versions_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ir.co.realtime.websearcher.document.Document.WebArchive parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ir.co.realtime.websearcher.document.Document.WebArchive) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
 
       private java.lang.Object url_ = "";
       /**
@@ -606,67 +1953,244 @@ public final class Document {
         return this;
       }
 
-      private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
-      /**
-       * <code>bytes content = 2;</code>
-       * @return The content.
-       */
-      public com.google.protobuf.ByteString getContent() {
-        return content_;
-      }
-      /**
-       * <code>bytes content = 2;</code>
-       * @param value The content to set.
-       * @return This builder for chaining.
-       */
-      public Builder setContent(com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        content_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>bytes content = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearContent() {
-        
-        content_ = getDefaultInstance().getContent();
-        onChanged();
-        return this;
+      private java.util.List<ir.co.realtime.websearcher.document.Document.Page> versions_ =
+        java.util.Collections.emptyList();
+      private void ensureVersionsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          versions_ = new java.util.ArrayList<ir.co.realtime.websearcher.document.Document.Page>(versions_);
+          bitField0_ |= 0x00000001;
+         }
       }
 
-      private long fetchTime_ ;
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ir.co.realtime.websearcher.document.Document.Page, ir.co.realtime.websearcher.document.Document.Page.Builder, ir.co.realtime.websearcher.document.Document.PageOrBuilder> versionsBuilder_;
+
       /**
-       * <code>uint64 fetch_time = 3;</code>
-       * @return The fetchTime.
+       * <code>repeated .Page versions = 2;</code>
        */
-      public long getFetchTime() {
-        return fetchTime_;
+      public java.util.List<ir.co.realtime.websearcher.document.Document.Page> getVersionsList() {
+        if (versionsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(versions_);
+        } else {
+          return versionsBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>uint64 fetch_time = 3;</code>
-       * @param value The fetchTime to set.
-       * @return This builder for chaining.
+       * <code>repeated .Page versions = 2;</code>
        */
-      public Builder setFetchTime(long value) {
-        
-        fetchTime_ = value;
-        onChanged();
+      public int getVersionsCount() {
+        if (versionsBuilder_ == null) {
+          return versions_.size();
+        } else {
+          return versionsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page getVersions(int index) {
+        if (versionsBuilder_ == null) {
+          return versions_.get(index);
+        } else {
+          return versionsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder setVersions(
+          int index, ir.co.realtime.websearcher.document.Document.Page value) {
+        if (versionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVersionsIsMutable();
+          versions_.set(index, value);
+          onChanged();
+        } else {
+          versionsBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>uint64 fetch_time = 3;</code>
-       * @return This builder for chaining.
+       * <code>repeated .Page versions = 2;</code>
        */
-      public Builder clearFetchTime() {
-        
-        fetchTime_ = 0L;
-        onChanged();
+      public Builder setVersions(
+          int index, ir.co.realtime.websearcher.document.Document.Page.Builder builderForValue) {
+        if (versionsBuilder_ == null) {
+          ensureVersionsIsMutable();
+          versions_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          versionsBuilder_.setMessage(index, builderForValue.build());
+        }
         return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder addVersions(ir.co.realtime.websearcher.document.Document.Page value) {
+        if (versionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVersionsIsMutable();
+          versions_.add(value);
+          onChanged();
+        } else {
+          versionsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder addVersions(
+          int index, ir.co.realtime.websearcher.document.Document.Page value) {
+        if (versionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureVersionsIsMutable();
+          versions_.add(index, value);
+          onChanged();
+        } else {
+          versionsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder addVersions(
+          ir.co.realtime.websearcher.document.Document.Page.Builder builderForValue) {
+        if (versionsBuilder_ == null) {
+          ensureVersionsIsMutable();
+          versions_.add(builderForValue.build());
+          onChanged();
+        } else {
+          versionsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder addVersions(
+          int index, ir.co.realtime.websearcher.document.Document.Page.Builder builderForValue) {
+        if (versionsBuilder_ == null) {
+          ensureVersionsIsMutable();
+          versions_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          versionsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder addAllVersions(
+          java.lang.Iterable<? extends ir.co.realtime.websearcher.document.Document.Page> values) {
+        if (versionsBuilder_ == null) {
+          ensureVersionsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, versions_);
+          onChanged();
+        } else {
+          versionsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder clearVersions() {
+        if (versionsBuilder_ == null) {
+          versions_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          versionsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public Builder removeVersions(int index) {
+        if (versionsBuilder_ == null) {
+          ensureVersionsIsMutable();
+          versions_.remove(index);
+          onChanged();
+        } else {
+          versionsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Builder getVersionsBuilder(
+          int index) {
+        return getVersionsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.PageOrBuilder getVersionsOrBuilder(
+          int index) {
+        if (versionsBuilder_ == null) {
+          return versions_.get(index);  } else {
+          return versionsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public java.util.List<? extends ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+           getVersionsOrBuilderList() {
+        if (versionsBuilder_ != null) {
+          return versionsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(versions_);
+        }
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Builder addVersionsBuilder() {
+        return getVersionsFieldBuilder().addBuilder(
+            ir.co.realtime.websearcher.document.Document.Page.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Builder addVersionsBuilder(
+          int index) {
+        return getVersionsFieldBuilder().addBuilder(
+            index, ir.co.realtime.websearcher.document.Document.Page.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Page versions = 2;</code>
+       */
+      public java.util.List<ir.co.realtime.websearcher.document.Document.Page.Builder> 
+           getVersionsBuilderList() {
+        return getVersionsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ir.co.realtime.websearcher.document.Document.Page, ir.co.realtime.websearcher.document.Document.Page.Builder, ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+          getVersionsFieldBuilder() {
+        if (versionsBuilder_ == null) {
+          versionsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ir.co.realtime.websearcher.document.Document.Page, ir.co.realtime.websearcher.document.Document.Page.Builder, ir.co.realtime.websearcher.document.Document.PageOrBuilder>(
+                  versions_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          versions_ = null;
+        }
+        return versionsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -681,51 +2205,1197 @@ public final class Document {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:Web)
+      // @@protoc_insertion_point(builder_scope:WebArchive)
     }
 
-    // @@protoc_insertion_point(class_scope:Web)
-    private static final ir.co.realtime.websearcher.document.Document.Web DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:WebArchive)
+    private static final ir.co.realtime.websearcher.document.Document.WebArchive DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new ir.co.realtime.websearcher.document.Document.Web();
+      DEFAULT_INSTANCE = new ir.co.realtime.websearcher.document.Document.WebArchive();
     }
 
-    public static ir.co.realtime.websearcher.document.Document.Web getDefaultInstance() {
+    public static ir.co.realtime.websearcher.document.Document.WebArchive getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<Web>
-        PARSER = new com.google.protobuf.AbstractParser<Web>() {
+    private static final com.google.protobuf.Parser<WebArchive>
+        PARSER = new com.google.protobuf.AbstractParser<WebArchive>() {
       @java.lang.Override
-      public Web parsePartialFrom(
+      public WebArchive parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Web(input, extensionRegistry);
+        return new WebArchive(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<Web> parser() {
+    public static com.google.protobuf.Parser<WebArchive> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<Web> getParserForType() {
+    public com.google.protobuf.Parser<WebArchive> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public ir.co.realtime.websearcher.document.Document.Web getDefaultInstanceForType() {
+    public ir.co.realtime.websearcher.document.Document.WebArchive getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DomainOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Domain)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string domain = 1;</code>
+     * @return The domain.
+     */
+    java.lang.String getDomain();
+    /**
+     * <code>string domain = 1;</code>
+     * @return The bytes for domain.
+     */
+    com.google.protobuf.ByteString
+        getDomainBytes();
+
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    java.util.List<ir.co.realtime.websearcher.document.Document.Page> 
+        getUrlsList();
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    ir.co.realtime.websearcher.document.Document.Page getUrls(int index);
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    int getUrlsCount();
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    java.util.List<? extends ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+        getUrlsOrBuilderList();
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    ir.co.realtime.websearcher.document.Document.PageOrBuilder getUrlsOrBuilder(
+        int index);
+
+    /**
+     * <code>.Domain sub_domains = 3;</code>
+     * @return Whether the subDomains field is set.
+     */
+    boolean hasSubDomains();
+    /**
+     * <code>.Domain sub_domains = 3;</code>
+     * @return The subDomains.
+     */
+    ir.co.realtime.websearcher.document.Document.Domain getSubDomains();
+    /**
+     * <code>.Domain sub_domains = 3;</code>
+     */
+    ir.co.realtime.websearcher.document.Document.DomainOrBuilder getSubDomainsOrBuilder();
+  }
+  /**
+   * Protobuf type {@code Domain}
+   */
+  public  static final class Domain extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:Domain)
+      DomainOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use Domain.newBuilder() to construct.
+    private Domain(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private Domain() {
+      domain_ = "";
+      urls_ = java.util.Collections.emptyList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new Domain();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Domain(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              domain_ = s;
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                urls_ = new java.util.ArrayList<ir.co.realtime.websearcher.document.Document.Page>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              urls_.add(
+                  input.readMessage(ir.co.realtime.websearcher.document.Document.Page.parser(), extensionRegistry));
+              break;
+            }
+            case 26: {
+              ir.co.realtime.websearcher.document.Document.Domain.Builder subBuilder = null;
+              if (subDomains_ != null) {
+                subBuilder = subDomains_.toBuilder();
+              }
+              subDomains_ = input.readMessage(ir.co.realtime.websearcher.document.Document.Domain.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(subDomains_);
+                subDomains_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          urls_ = java.util.Collections.unmodifiableList(urls_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ir.co.realtime.websearcher.document.Document.internal_static_Domain_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ir.co.realtime.websearcher.document.Document.internal_static_Domain_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ir.co.realtime.websearcher.document.Document.Domain.class, ir.co.realtime.websearcher.document.Document.Domain.Builder.class);
+    }
+
+    public static final int DOMAIN_FIELD_NUMBER = 1;
+    private volatile java.lang.Object domain_;
+    /**
+     * <code>string domain = 1;</code>
+     * @return The domain.
+     */
+    public java.lang.String getDomain() {
+      java.lang.Object ref = domain_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        domain_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string domain = 1;</code>
+     * @return The bytes for domain.
+     */
+    public com.google.protobuf.ByteString
+        getDomainBytes() {
+      java.lang.Object ref = domain_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        domain_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int URLS_FIELD_NUMBER = 2;
+    private java.util.List<ir.co.realtime.websearcher.document.Document.Page> urls_;
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    public java.util.List<ir.co.realtime.websearcher.document.Document.Page> getUrlsList() {
+      return urls_;
+    }
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    public java.util.List<? extends ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+        getUrlsOrBuilderList() {
+      return urls_;
+    }
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    public int getUrlsCount() {
+      return urls_.size();
+    }
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    public ir.co.realtime.websearcher.document.Document.Page getUrls(int index) {
+      return urls_.get(index);
+    }
+    /**
+     * <code>repeated .Page urls = 2;</code>
+     */
+    public ir.co.realtime.websearcher.document.Document.PageOrBuilder getUrlsOrBuilder(
+        int index) {
+      return urls_.get(index);
+    }
+
+    public static final int SUB_DOMAINS_FIELD_NUMBER = 3;
+    private ir.co.realtime.websearcher.document.Document.Domain subDomains_;
+    /**
+     * <code>.Domain sub_domains = 3;</code>
+     * @return Whether the subDomains field is set.
+     */
+    public boolean hasSubDomains() {
+      return subDomains_ != null;
+    }
+    /**
+     * <code>.Domain sub_domains = 3;</code>
+     * @return The subDomains.
+     */
+    public ir.co.realtime.websearcher.document.Document.Domain getSubDomains() {
+      return subDomains_ == null ? ir.co.realtime.websearcher.document.Document.Domain.getDefaultInstance() : subDomains_;
+    }
+    /**
+     * <code>.Domain sub_domains = 3;</code>
+     */
+    public ir.co.realtime.websearcher.document.Document.DomainOrBuilder getSubDomainsOrBuilder() {
+      return getSubDomains();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getDomainBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, domain_);
+      }
+      for (int i = 0; i < urls_.size(); i++) {
+        output.writeMessage(2, urls_.get(i));
+      }
+      if (subDomains_ != null) {
+        output.writeMessage(3, getSubDomains());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getDomainBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, domain_);
+      }
+      for (int i = 0; i < urls_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, urls_.get(i));
+      }
+      if (subDomains_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getSubDomains());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ir.co.realtime.websearcher.document.Document.Domain)) {
+        return super.equals(obj);
+      }
+      ir.co.realtime.websearcher.document.Document.Domain other = (ir.co.realtime.websearcher.document.Document.Domain) obj;
+
+      if (!getDomain()
+          .equals(other.getDomain())) return false;
+      if (!getUrlsList()
+          .equals(other.getUrlsList())) return false;
+      if (hasSubDomains() != other.hasSubDomains()) return false;
+      if (hasSubDomains()) {
+        if (!getSubDomains()
+            .equals(other.getSubDomains())) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + DOMAIN_FIELD_NUMBER;
+      hash = (53 * hash) + getDomain().hashCode();
+      if (getUrlsCount() > 0) {
+        hash = (37 * hash) + URLS_FIELD_NUMBER;
+        hash = (53 * hash) + getUrlsList().hashCode();
+      }
+      if (hasSubDomains()) {
+        hash = (37 * hash) + SUB_DOMAINS_FIELD_NUMBER;
+        hash = (53 * hash) + getSubDomains().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ir.co.realtime.websearcher.document.Document.Domain parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ir.co.realtime.websearcher.document.Document.Domain prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Domain}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Domain)
+        ir.co.realtime.websearcher.document.Document.DomainOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ir.co.realtime.websearcher.document.Document.internal_static_Domain_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ir.co.realtime.websearcher.document.Document.internal_static_Domain_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ir.co.realtime.websearcher.document.Document.Domain.class, ir.co.realtime.websearcher.document.Document.Domain.Builder.class);
+      }
+
+      // Construct using ir.co.realtime.websearcher.document.Document.Domain.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getUrlsFieldBuilder();
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        domain_ = "";
+
+        if (urlsBuilder_ == null) {
+          urls_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          urlsBuilder_.clear();
+        }
+        if (subDomainsBuilder_ == null) {
+          subDomains_ = null;
+        } else {
+          subDomains_ = null;
+          subDomainsBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ir.co.realtime.websearcher.document.Document.internal_static_Domain_descriptor;
+      }
+
+      @java.lang.Override
+      public ir.co.realtime.websearcher.document.Document.Domain getDefaultInstanceForType() {
+        return ir.co.realtime.websearcher.document.Document.Domain.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ir.co.realtime.websearcher.document.Document.Domain build() {
+        ir.co.realtime.websearcher.document.Document.Domain result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ir.co.realtime.websearcher.document.Document.Domain buildPartial() {
+        ir.co.realtime.websearcher.document.Document.Domain result = new ir.co.realtime.websearcher.document.Document.Domain(this);
+        int from_bitField0_ = bitField0_;
+        result.domain_ = domain_;
+        if (urlsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            urls_ = java.util.Collections.unmodifiableList(urls_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.urls_ = urls_;
+        } else {
+          result.urls_ = urlsBuilder_.build();
+        }
+        if (subDomainsBuilder_ == null) {
+          result.subDomains_ = subDomains_;
+        } else {
+          result.subDomains_ = subDomainsBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ir.co.realtime.websearcher.document.Document.Domain) {
+          return mergeFrom((ir.co.realtime.websearcher.document.Document.Domain)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ir.co.realtime.websearcher.document.Document.Domain other) {
+        if (other == ir.co.realtime.websearcher.document.Document.Domain.getDefaultInstance()) return this;
+        if (!other.getDomain().isEmpty()) {
+          domain_ = other.domain_;
+          onChanged();
+        }
+        if (urlsBuilder_ == null) {
+          if (!other.urls_.isEmpty()) {
+            if (urls_.isEmpty()) {
+              urls_ = other.urls_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureUrlsIsMutable();
+              urls_.addAll(other.urls_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.urls_.isEmpty()) {
+            if (urlsBuilder_.isEmpty()) {
+              urlsBuilder_.dispose();
+              urlsBuilder_ = null;
+              urls_ = other.urls_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              urlsBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getUrlsFieldBuilder() : null;
+            } else {
+              urlsBuilder_.addAllMessages(other.urls_);
+            }
+          }
+        }
+        if (other.hasSubDomains()) {
+          mergeSubDomains(other.getSubDomains());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ir.co.realtime.websearcher.document.Document.Domain parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ir.co.realtime.websearcher.document.Document.Domain) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object domain_ = "";
+      /**
+       * <code>string domain = 1;</code>
+       * @return The domain.
+       */
+      public java.lang.String getDomain() {
+        java.lang.Object ref = domain_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          domain_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string domain = 1;</code>
+       * @return The bytes for domain.
+       */
+      public com.google.protobuf.ByteString
+          getDomainBytes() {
+        java.lang.Object ref = domain_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          domain_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string domain = 1;</code>
+       * @param value The domain to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDomain(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        domain_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string domain = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearDomain() {
+        
+        domain_ = getDefaultInstance().getDomain();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string domain = 1;</code>
+       * @param value The bytes for domain to set.
+       * @return This builder for chaining.
+       */
+      public Builder setDomainBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        domain_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<ir.co.realtime.websearcher.document.Document.Page> urls_ =
+        java.util.Collections.emptyList();
+      private void ensureUrlsIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          urls_ = new java.util.ArrayList<ir.co.realtime.websearcher.document.Document.Page>(urls_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ir.co.realtime.websearcher.document.Document.Page, ir.co.realtime.websearcher.document.Document.Page.Builder, ir.co.realtime.websearcher.document.Document.PageOrBuilder> urlsBuilder_;
+
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public java.util.List<ir.co.realtime.websearcher.document.Document.Page> getUrlsList() {
+        if (urlsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(urls_);
+        } else {
+          return urlsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public int getUrlsCount() {
+        if (urlsBuilder_ == null) {
+          return urls_.size();
+        } else {
+          return urlsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page getUrls(int index) {
+        if (urlsBuilder_ == null) {
+          return urls_.get(index);
+        } else {
+          return urlsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder setUrls(
+          int index, ir.co.realtime.websearcher.document.Document.Page value) {
+        if (urlsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUrlsIsMutable();
+          urls_.set(index, value);
+          onChanged();
+        } else {
+          urlsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder setUrls(
+          int index, ir.co.realtime.websearcher.document.Document.Page.Builder builderForValue) {
+        if (urlsBuilder_ == null) {
+          ensureUrlsIsMutable();
+          urls_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          urlsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder addUrls(ir.co.realtime.websearcher.document.Document.Page value) {
+        if (urlsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUrlsIsMutable();
+          urls_.add(value);
+          onChanged();
+        } else {
+          urlsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder addUrls(
+          int index, ir.co.realtime.websearcher.document.Document.Page value) {
+        if (urlsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUrlsIsMutable();
+          urls_.add(index, value);
+          onChanged();
+        } else {
+          urlsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder addUrls(
+          ir.co.realtime.websearcher.document.Document.Page.Builder builderForValue) {
+        if (urlsBuilder_ == null) {
+          ensureUrlsIsMutable();
+          urls_.add(builderForValue.build());
+          onChanged();
+        } else {
+          urlsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder addUrls(
+          int index, ir.co.realtime.websearcher.document.Document.Page.Builder builderForValue) {
+        if (urlsBuilder_ == null) {
+          ensureUrlsIsMutable();
+          urls_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          urlsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder addAllUrls(
+          java.lang.Iterable<? extends ir.co.realtime.websearcher.document.Document.Page> values) {
+        if (urlsBuilder_ == null) {
+          ensureUrlsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, urls_);
+          onChanged();
+        } else {
+          urlsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder clearUrls() {
+        if (urlsBuilder_ == null) {
+          urls_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          urlsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public Builder removeUrls(int index) {
+        if (urlsBuilder_ == null) {
+          ensureUrlsIsMutable();
+          urls_.remove(index);
+          onChanged();
+        } else {
+          urlsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Builder getUrlsBuilder(
+          int index) {
+        return getUrlsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.PageOrBuilder getUrlsOrBuilder(
+          int index) {
+        if (urlsBuilder_ == null) {
+          return urls_.get(index);  } else {
+          return urlsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public java.util.List<? extends ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+           getUrlsOrBuilderList() {
+        if (urlsBuilder_ != null) {
+          return urlsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(urls_);
+        }
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Builder addUrlsBuilder() {
+        return getUrlsFieldBuilder().addBuilder(
+            ir.co.realtime.websearcher.document.Document.Page.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Page.Builder addUrlsBuilder(
+          int index) {
+        return getUrlsFieldBuilder().addBuilder(
+            index, ir.co.realtime.websearcher.document.Document.Page.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Page urls = 2;</code>
+       */
+      public java.util.List<ir.co.realtime.websearcher.document.Document.Page.Builder> 
+           getUrlsBuilderList() {
+        return getUrlsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          ir.co.realtime.websearcher.document.Document.Page, ir.co.realtime.websearcher.document.Document.Page.Builder, ir.co.realtime.websearcher.document.Document.PageOrBuilder> 
+          getUrlsFieldBuilder() {
+        if (urlsBuilder_ == null) {
+          urlsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              ir.co.realtime.websearcher.document.Document.Page, ir.co.realtime.websearcher.document.Document.Page.Builder, ir.co.realtime.websearcher.document.Document.PageOrBuilder>(
+                  urls_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          urls_ = null;
+        }
+        return urlsBuilder_;
+      }
+
+      private ir.co.realtime.websearcher.document.Document.Domain subDomains_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ir.co.realtime.websearcher.document.Document.Domain, ir.co.realtime.websearcher.document.Document.Domain.Builder, ir.co.realtime.websearcher.document.Document.DomainOrBuilder> subDomainsBuilder_;
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       * @return Whether the subDomains field is set.
+       */
+      public boolean hasSubDomains() {
+        return subDomainsBuilder_ != null || subDomains_ != null;
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       * @return The subDomains.
+       */
+      public ir.co.realtime.websearcher.document.Document.Domain getSubDomains() {
+        if (subDomainsBuilder_ == null) {
+          return subDomains_ == null ? ir.co.realtime.websearcher.document.Document.Domain.getDefaultInstance() : subDomains_;
+        } else {
+          return subDomainsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      public Builder setSubDomains(ir.co.realtime.websearcher.document.Document.Domain value) {
+        if (subDomainsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          subDomains_ = value;
+          onChanged();
+        } else {
+          subDomainsBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      public Builder setSubDomains(
+          ir.co.realtime.websearcher.document.Document.Domain.Builder builderForValue) {
+        if (subDomainsBuilder_ == null) {
+          subDomains_ = builderForValue.build();
+          onChanged();
+        } else {
+          subDomainsBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      public Builder mergeSubDomains(ir.co.realtime.websearcher.document.Document.Domain value) {
+        if (subDomainsBuilder_ == null) {
+          if (subDomains_ != null) {
+            subDomains_ =
+              ir.co.realtime.websearcher.document.Document.Domain.newBuilder(subDomains_).mergeFrom(value).buildPartial();
+          } else {
+            subDomains_ = value;
+          }
+          onChanged();
+        } else {
+          subDomainsBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      public Builder clearSubDomains() {
+        if (subDomainsBuilder_ == null) {
+          subDomains_ = null;
+          onChanged();
+        } else {
+          subDomains_ = null;
+          subDomainsBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.Domain.Builder getSubDomainsBuilder() {
+        
+        onChanged();
+        return getSubDomainsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      public ir.co.realtime.websearcher.document.Document.DomainOrBuilder getSubDomainsOrBuilder() {
+        if (subDomainsBuilder_ != null) {
+          return subDomainsBuilder_.getMessageOrBuilder();
+        } else {
+          return subDomains_ == null ?
+              ir.co.realtime.websearcher.document.Document.Domain.getDefaultInstance() : subDomains_;
+        }
+      }
+      /**
+       * <code>.Domain sub_domains = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          ir.co.realtime.websearcher.document.Document.Domain, ir.co.realtime.websearcher.document.Document.Domain.Builder, ir.co.realtime.websearcher.document.Document.DomainOrBuilder> 
+          getSubDomainsFieldBuilder() {
+        if (subDomainsBuilder_ == null) {
+          subDomainsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              ir.co.realtime.websearcher.document.Document.Domain, ir.co.realtime.websearcher.document.Document.Domain.Builder, ir.co.realtime.websearcher.document.Document.DomainOrBuilder>(
+                  getSubDomains(),
+                  getParentForChildren(),
+                  isClean());
+          subDomains_ = null;
+        }
+        return subDomainsBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:Domain)
+    }
+
+    // @@protoc_insertion_point(class_scope:Domain)
+    private static final ir.co.realtime.websearcher.document.Document.Domain DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ir.co.realtime.websearcher.document.Document.Domain();
+    }
+
+    public static ir.co.realtime.websearcher.document.Document.Domain getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<Domain>
+        PARSER = new com.google.protobuf.AbstractParser<Domain>() {
+      @java.lang.Override
+      public Domain parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Domain(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<Domain> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Domain> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ir.co.realtime.websearcher.document.Document.Domain getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_Web_descriptor;
+    internal_static_Page_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_Web_fieldAccessorTable;
+      internal_static_Page_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_WebArchive_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_WebArchive_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Domain_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_Domain_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -735,20 +3405,42 @@ public final class Document {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016document.proto\"7\n\003Web\022\013\n\003url\030\001 \001(\t\022\017\n\007" +
-      "content\030\002 \001(\014\022\022\n\nfetch_time\030\003 \001(\004B%\n#ir." +
-      "co.realtime.websearcher.documentb\006proto3"
+      "\n\016document.proto\"\263\002\n\004Page\022\n\n\002id\030\001 \001(\005\022\013\n" +
+      "\003url\030\002 \001(\t\022\r\n\005bytes\030\003 \001(\014\022(\n\014content_typ" +
+      "e\030\004 \001(\0162\022.Page.Content_Type\022\022\n\nfetch_tim" +
+      "e\030\005 \001(\004\022\'\n\014fetch_status\030\006 \001(\0162\021.Page.Fet" +
+      "chStatus\"a\n\013FetchStatus\022\013\n\007FETCHED\020\000\022\014\n\010" +
+      "FETCHING\020\001\022\016\n\nMUST_FETCH\020\002\022\r\n\tCAN_FETCH\020" +
+      "\003\022\013\n\007REMOVED\020\004\022\013\n\007BLOCKED\020\005\"9\n\014Content_T" +
+      "ype\022\010\n\004TEXT\020\000\022\t\n\005IMAGE\020\001\022\t\n\005VIDEO\020\002\022\t\n\005S" +
+      "OUND\020\003\"2\n\nWebArchive\022\013\n\003url\030\001 \001(\t\022\027\n\010ver" +
+      "sions\030\002 \003(\0132\005.Page\"K\n\006Domain\022\016\n\006domain\030\001" +
+      " \001(\t\022\023\n\004urls\030\002 \003(\0132\005.Page\022\034\n\013sub_domains" +
+      "\030\003 \001(\0132\007.DomainB%\n#ir.co.realtime.websea" +
+      "rcher.documentb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         });
-    internal_static_Web_descriptor =
+    internal_static_Page_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_Web_fieldAccessorTable = new
+    internal_static_Page_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_Web_descriptor,
-        new java.lang.String[] { "Url", "Content", "FetchTime", });
+        internal_static_Page_descriptor,
+        new java.lang.String[] { "Id", "Url", "Bytes", "ContentType", "FetchTime", "FetchStatus", });
+    internal_static_WebArchive_descriptor =
+      getDescriptor().getMessageTypes().get(1);
+    internal_static_WebArchive_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_WebArchive_descriptor,
+        new java.lang.String[] { "Url", "Versions", });
+    internal_static_Domain_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_Domain_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_Domain_descriptor,
+        new java.lang.String[] { "Domain", "Urls", "SubDomains", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
