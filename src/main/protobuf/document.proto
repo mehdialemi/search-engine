@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_package = "ir.co.realtime.websearcher.document";
+
+message Web {
+    string url = 1;
+    bytes content = 2;
+    uint64 fetch_time = 3;
+}
