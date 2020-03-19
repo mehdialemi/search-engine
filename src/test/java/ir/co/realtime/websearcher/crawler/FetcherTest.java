@@ -16,7 +16,6 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-
 public class FetcherTest extends LocalKafka {
 
     @Value("${crawler.fetch.download-topic}")
@@ -35,10 +34,10 @@ public class FetcherTest extends LocalKafka {
         String url = "https://www.google.com";
         send(url, url.getBytes());
 
-        Document.Page update = Document.Page.parseFrom(getPublishedValue());
+        Document.Page page = Document.Page.parseFrom(getPublishedValue());
 
-        assertEquals(url, update.getUrl());
-        assertTrue(update.getFetchTime() > 0);
-        assertFalse(update.getBytes().isEmpty());
+        assertEquals(url, page.getUrl());
+        assertTrue(page.getFetchTime() > 0);
+        assertFalse(page.getValue().isEmpty());
     }
 }
