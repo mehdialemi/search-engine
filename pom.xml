@@ -17,7 +17,7 @@
         <spring.version>2.2.5.RELEASE</spring.version>
         <spring.integration.version>5.2.4.RELEASE</spring.integration.version>
         <protobuf.version>3.11.4</protobuf.version>
-        <jsoup.version>1.13.1</jsoup.version>
+        <jsoup.version>1.15.3</jsoup.version>
     </properties>
 
     <dependencies>
